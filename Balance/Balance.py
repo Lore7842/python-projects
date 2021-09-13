@@ -13,10 +13,11 @@ options.add_argument('--headless')
 options.add_argument('--nosandbox')
 
 options.add_argument("--remote-debugging-port=9220")
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
 DRIVER_PATH = 'C:/Users/lollo/Desktop/chromedriver.exe'
 try:
-    driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
+    driver = webdriver.Chrome(options = options, executable_path=DRIVER_PATH)
     driver.get('https://www.gostudent.org/login/?lng=it')
 
     tel = input("Inserisci il numero: ")
@@ -47,6 +48,13 @@ try:
     # insert the personal key
 
     submit_final = driver.find_element_by_class_name('dZa-Dsc').click()
+
+    driver.implicitly_wait(15)
+    try: 
+        accept_terms = driver.find_element_by_class_name('jTmVkn')
+        accept_terms.click()
+    except Exception as e: 
+        pass
 
     menu = WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.CLASS_NAME, "menu"))).click()
